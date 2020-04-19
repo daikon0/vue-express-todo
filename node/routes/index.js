@@ -38,4 +38,22 @@ router.delete("/task/:id", async function(req, res, next) {
   }
 });
 
+router.put("/task/:id", async function(req, res, next) {
+  try {
+    const result = await db.task.update(
+      {
+        taskname: req.body.task
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+    res.send(result);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 module.exports = router;

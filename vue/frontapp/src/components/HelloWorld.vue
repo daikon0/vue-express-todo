@@ -16,7 +16,7 @@
           <input v-model="task.taskname" type="text">
         </td>
         <td>
-          <input type="button" value="update">
+          <input type="button" value="update" v-on:click="taskUpdate(task.id, task.taskname)">
         </td>
         <td>
           <input type="button" value="delete" v-on:click="taskDelete(task.id, index)">
@@ -59,6 +59,15 @@ export default {
         await axios.delete("http://localhost:3000/task/" + id);
         this.currentTask= "";
         this.tasks.splice(index, 1);
+      } catch (err) {
+        alert(JSON.stringify(err));
+      }
+    },
+    taskUpdate: async function(id, val){
+      try{
+        await axios.put("http://localhost:3000/task/" + id, {
+          task: val
+        });
       } catch (err) {
         alert(JSON.stringify(err));
       }
