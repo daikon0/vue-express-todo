@@ -23,4 +23,19 @@ router.post("/task", async function(req, res, next) {
   }
 });
 
+router.delete("/task/:id", async function(req, res, next) {
+  try {
+    const result = await db.task.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.send({
+      result: result
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 module.exports = router;

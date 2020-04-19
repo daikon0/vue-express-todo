@@ -11,7 +11,7 @@
         <th>update</th>
         <th>delete</th>
       </tr>
-      <tr v-for="(task) in tasks" :key="task.id">
+      <tr v-for="(task, index) in tasks" :key="task.id">
         <td>
           <input v-model="task.taskname" type="text">
         </td>
@@ -19,7 +19,7 @@
           <input type="button" value="update">
         </td>
         <td>
-          <input type="button" value="delete">
+          <input type="button" value="delete" v-on:click="taskDelete(task.id, index)">
         </td>
       </tr>
     </table>
@@ -50,6 +50,15 @@ export default {
         });
         this.tasks.push(result.data);
         this.currentTask = "";
+      } catch (err) {
+        alert(JSON.stringify(err));
+      }
+    },
+    taskDelete: async function(id, index) {
+      try {
+        await axios.delete("http://localhost:3000/task/" + id);
+        this.currentTask= "";
+        this.tasks.splice(index, 1);
       } catch (err) {
         alert(JSON.stringify(err));
       }
